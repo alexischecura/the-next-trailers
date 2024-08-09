@@ -15,7 +15,7 @@ function MainMoviesList() {
     <div className="bg-gradient-to-t from-blue-950 to-transparent">
       <section className="mx-auto max-w-7xl text-white">
         <BackgroundVideo
-          currentMovie={currentMovie}
+          youtubeId={selectedMovie.YoutubeId}
           imdbId={selectedMovie.imdbID}
         />
         <div className="mt-64">
