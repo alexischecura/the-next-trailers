@@ -2,6 +2,8 @@ import { PropsWithChildren } from 'react';
 import '@/app/_styles/globals.css';
 
 import Header from './_components/Header';
+import { VideoPlayerProvider } from './_components/VideoPlayerContext';
+import BackgroundVideoTest from './_components/BackgroundVideoYoutube';
 
 export const metadata = {
   title: 'Next Trailers',
@@ -10,10 +12,13 @@ export const metadata = {
 function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className="bg-blue-950">
+      <body className="bg-gray-900">
         <Header />
         <main className="mx-auto w-full">
-          {children}
+          <VideoPlayerProvider>
+            <BackgroundVideoTest />
+            {children}
+          </VideoPlayerProvider>
         </main>
       </body>
     </html>
