@@ -1,10 +1,14 @@
 import MainMoviesList from './_components/MainMoviesList';
 import WeekMoviesList from './_components/WeekMoviesList';
+import { getMainMoviesAndTrailers } from './_lib/data-service';
 
-function Page() {
+async function Page() {
+  const movies = await getMainMoviesAndTrailers();
+  if (!movies) return null;
+  
   return (
     <>
-      <MainMoviesList />
+      <MainMoviesList movies={movies.results} />
       <WeekMoviesList />
     </>
   );
