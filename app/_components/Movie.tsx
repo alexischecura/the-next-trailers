@@ -5,7 +5,7 @@ import { Bebas_Neue } from 'next/font/google';
 
 import { useVideoPlayer } from './VideoPlayerContext';
 import { MovieDetail } from '../_lib/data-service';
-import { format, formatDate } from 'date-fns';
+import { format } from 'date-fns';
 
 const bebas_neue = Bebas_Neue({
   subsets: ['latin'],
@@ -29,9 +29,8 @@ function Movie({ movie }: { movie: MovieDetail }) {
   }, [youtubeId, currentYoutubeId, setYoutubeId]);
 
   return (
-    <>
+    <section>
       <div className="mx-auto mt-72 max-w-7xl">
-        {/* <p className="font-medium text-xl">{movie.director}</p> */}
         <h2 className={`text-6xl tracking-tight ${bebas_neue.className}`}>
           {movie.title}
         </h2>
@@ -60,9 +59,9 @@ function Movie({ movie }: { movie: MovieDetail }) {
         <Box title="BUDGET">$ {movie.budget}</Box>
         <Box title="RELEASE">{format(movie.release_date, 'MMMM d, yyyy')}</Box>
         <Box title="LENGTH">{movie.runtime} min</Box>
-        <Box title="IMDB">{movie.vote_average.toFixed(1)}</Box>
+        <Box title="USER RATING">{movie.vote_average.toFixed(1)} / 10</Box>
       </div>
-    </>
+    </section>
   );
 }
 
@@ -76,14 +75,14 @@ function Box({
 }>) {
   return (
     <div
-      className={`relative rounded-3xl w-44 h-28 ${stylesClasses} ${bebas_neue.className}`}
+      className={`rounded-3xl w-44 h-28 ${stylesClasses} ${bebas_neue.className} ${title ? "flex flex-col justify-center items-start p-4" : ''}`}
     >
       {title && (
-        <h6 className="top-[40%] -left-1 absolute font-medium text-center text-gray-500 uppercase -rotate-90">
+        <h6 className="">
           {title}
         </h6>
       )}
-      <p className="flex justify-center items-center h-full font-bold text-3xl tracking-tight">
+      <p className="flex justify-center items-center h-full font-semibold text-3xl tracking-tight">
         {children}
       </p>
     </div>
