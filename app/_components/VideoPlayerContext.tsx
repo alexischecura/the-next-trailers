@@ -18,6 +18,8 @@ type VideoContextType = {
   setOnTop: Dispatch<SetStateAction<boolean>>;
   currentHomeMovie: number;
   setCurrentHomeMovie: Dispatch<SetStateAction<number>>;
+  isFirstTimeOnTop: boolean;
+  setIsFirstTimeOnTop: Dispatch<SetStateAction<boolean>>;
 };
 
 const VideoPlayerContext = createContext<VideoContextType | undefined>(
@@ -28,6 +30,7 @@ function VideoPlayerProvider({ children }: PropsWithChildren) {
   const [youtubeId, setYoutubeId] = useState('');
   const [currentHomeMovie, setCurrentHomeMovie] = useState(0);
   const [onTop, setOnTop] = useState(false);
+  const [isFirstTimeOnTop, setIsFirstTimeOnTop] = useState(true);
 
   return (
     <VideoPlayerContext.Provider
@@ -38,6 +41,8 @@ function VideoPlayerProvider({ children }: PropsWithChildren) {
         youtubeId,
         currentHomeMovie,
         setCurrentHomeMovie,
+        isFirstTimeOnTop,
+        setIsFirstTimeOnTop,
       }}
     >
       {children}
@@ -53,7 +58,7 @@ function useVideoPlayer() {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
 
-  const { youtubeId, onTop } = context;
+  const { youtubeId, onTop, isFirstTimeOnTop, setIsFirstTimeOnTop } = context;
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -73,6 +78,7 @@ function useVideoPlayer() {
     };
 
     const createOrUpdatePlayer = () => {
+      setIsFirstTimeOnTop(true);
       if (playerRef?.current?.loadVideoById) {
         playerRef?.current?.loadVideoById(youtubeId);
       } else {
@@ -84,7 +90,6 @@ function useVideoPlayer() {
               loop: 1,
               mute: 1,
               rel: 0,
-              playlist: youtubeId || 'M3oVoMTrKvw',
             },
           });
         }
@@ -92,19 +97,22 @@ function useVideoPlayer() {
     };
 
     loadYouTubeAPI();
-  }, [youtubeId]);
+  }, [youtubeId, setIsFirstTimeOnTop]);
 
   useEffect(() => {
     if (playerRef.current) {
       if (onTop) {
         playerRef.current.unMute();
-        playerRef.current.seekTo(0);
+        if (isFirstTimeOnTop) {
+          playerRef.current.seekTo(0);
+          setIsFirstTimeOnTop(false);
+        }
       } else {
         playerRef.current.mute();
         playerRef.current.playVideo();
       }
     }
-  }, [onTop]);
+  }, [onTop, isFirstTimeOnTop, setIsFirstTimeOnTop]);
 
   return { videoRef, ...context };
 }
