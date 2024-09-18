@@ -39,6 +39,8 @@ function MainMoviesList({ movies }: { movies: Movie[] }) {
         <div className="flex justify-between mt-6">
           {movies.map((movie, i) => (
             <Link key={movie.id} href={`movie/${movie.id}`}>
+              <div className="relative">
+    
               <Image
                 className={`rounded-lg w-64 h-36 outline-white object-cover border-white${
                   i === currentHomeMovie ? ' border-[3px]' : ' opacity-95'
@@ -48,7 +50,11 @@ function MainMoviesList({ movies }: { movies: Movie[] }) {
                 src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                 onMouseEnter={() => setCurrentHomeMovie(i)}
                 alt={movie.title}
-              />
+                />
+                <span className="bottom-2 left-2 absolute w-full font-bold text-gray-100 text-lg">
+                  {movie.title}
+                </span>
+                </div>
             </Link>
           ))}
         </div>
