@@ -1,22 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { useVideoPlayer } from './VideoPlayerContext';
 
 function BackgroundVideoYoutube() {
   const { videoRef, onTop, setOnTop } = useVideoPlayer();
-  const [showButton, setShowButton] = useState(false);
 
   const closeOnTopVideo = () => {
     setOnTop(false);
-  };
-
-  const handleMouseEnter = () => {
-    setShowButton(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowButton(false);
   };
 
   return (
@@ -28,8 +18,6 @@ function BackgroundVideoYoutube() {
     >
       <div
         className="relative w-full max-w-[1450px] overflow-hidden aspect-video"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         <div
           ref={videoRef}
@@ -42,11 +30,9 @@ function BackgroundVideoYoutube() {
               e.stopPropagation();
               closeOnTopVideo();
             }}
-            className={`top-4 right-4 absolute flex justify-center items-center bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full w-10 h-10 transition-all ${
-              showButton ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`top-6 right-6 fixed flex justify-center items-center bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full w-14 h-14 transition-all`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
