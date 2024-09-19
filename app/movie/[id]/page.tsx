@@ -1,14 +1,13 @@
-import { getMovieDetail, getCredits } from '@/app/_lib/data-service';
-import Movie from '@/app/_components/Movie';
-import MovieDetails from '@/app/_components/MovieDetails';
+import { getMovieDetail, getCredits, getRecommendedMovies } from '../../_lib/data-service';
+import Movie from '@/app/_components/Movie'
+import MovieDetails from '../../_components/MovieDetails';
 
-async function Page({ params }: { params: { id: string } }) {
-  const [movie, credits] = await Promise.all([
-    getMovieDetail(params.id),
-    getCredits(params.id),
-  ]);
+export default async function Page({ params }: { params: { id: string } }) {
+  const movie = await getMovieDetail(params.id);
+  const credits = await getCredits(params.id);
+  const recommendedMovies = await getRecommendedMovies(params.id);
 
-  if (!movie || !credits) return null;
+  if (!movie || !credits || !recommendedMovies) return null;
 
   return (
     <>
@@ -16,10 +15,12 @@ async function Page({ params }: { params: { id: string } }) {
         <Movie movie={movie} />
       </section>
       <div className="bg-blue-950">
-        <MovieDetails movie={movie} credits={credits} />
+        <MovieDetails 
+        movie={movie} 
+        credits={credits} 
+        recommendedMovies={recommendedMovies}
+      />
       </div>
     </>
   );
 }
-
-export default Page;
