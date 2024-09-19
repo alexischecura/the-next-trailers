@@ -37,7 +37,7 @@ const MovieDetails = ({
           >
             <Link href={`/actor/${actor.id}`}>
               <Image
-                src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                src={actor.profile_path ? `https://image.tmdb.org/t/p/w200${actor.profile_path}` : "/default-actor.jpg"}
                 alt={actor.name}
                 className="mx-auto mb-2 rounded-full w-24 h-24 object-cover"
                 width={96}
