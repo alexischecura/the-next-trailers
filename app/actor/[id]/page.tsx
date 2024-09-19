@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!moviesActor || !actor) return null;
 
   return (
-    <main className="bg-blue-950">
+    <main className="top-0 right-0 left-0 -z-10 absolute bg-blue-950 pt-24">
       <section className="bg-gradient-to-t from-blue-950 to-transparent pb-10 text-white">
         <Actor actor={actor} />
       </section>

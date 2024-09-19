@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { Cast } from "../_lib/data-service";
+import { format } from "date-fns";
+import { Actor as ActorType } from "../_lib/data-service";
 
-export default function Actor({ actor }: { actor: Cast }) {
+export default function Actor({ actor }: { actor: ActorType }) {
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="flex md:flex-row flex-col items-center md:items-start gap-8">
@@ -18,7 +19,7 @@ export default function Actor({ actor }: { actor: Cast }) {
           <h1 className="mb-4 font-bold text-3xl">{actor.name}</h1>
           {actor.birthday && (
             <p className="mb-2">
-              <span className="font-semibold">Born:</span> {actor.birthday}
+              <span className="font-semibold">Born:</span> {format(actor.birthday, 'MMMM d, yyyy')}
             </p>
           )}
           {actor.place_of_birth && (
