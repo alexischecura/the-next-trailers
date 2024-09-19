@@ -56,7 +56,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
             </svg>
           </Box>
         </button>
-        <Box title="BUDGET">$ {movie.budget}</Box>
+        <Box title="ORIGIN COUNTRY">{movie.origin_country.join(' / ')}</Box>
         <Box title="RELEASE">{format(movie.release_date, 'MMMM d, yyyy')}</Box>
         <Box title="LENGTH">{movie.runtime} min</Box>
         <Box title="USER RATING">{movie.vote_average.toFixed(1)} / 10</Box>
