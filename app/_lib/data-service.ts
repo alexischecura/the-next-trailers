@@ -17,6 +17,41 @@ export async function getMovieDetail(id: string) {
   }
 }
 
+export async function searchMovie(query: string, signal?: AbortSignal) {
+  const searchURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
+
+  try {
+    const res = await fetch(searchURL, { signal });
+
+    if (!res.ok)
+      throw new Error('Something went wrong with fetching the movie');
+
+    const data = (await res.json()) as Movies;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getPopularWeekMovies()
+{
+  const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok)
+      throw new Error('Something went wrong with fetching the movies');
+
+    const data = (await res.json()) as Movies;
+    
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 /**
  *
  * @param {number} moviesQuantity [moviesQuantity=4] - The number of movies to fetch (maximum 20).
@@ -25,7 +60,7 @@ export async function getMovieDetail(id: string) {
  */
 
 export async function getMainMoviesAndTrailers(moviesQuantity: number = 4) {
-  const urlMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&include_adult=true&page=1&sort_by=popularity.desc`;
+  const urlMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=1`;
 
   try {
     const res = await fetch(urlMovies);
@@ -80,6 +115,39 @@ export async function getMovies() {
   }
 }
 
+export async function getRecommendedMovies(movieId: string) {
+  const urlRecommendedMovies = `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US&page=1`;
+  try {
+    const res = await fetch(urlRecommendedMovies);
+
+    if (!res.ok)
+      throw new Error('Something went wrong with fetching the movies');
+
+    const data = (await res.json()) as Movies;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getCredits(movieId: string) {
+  const creditsURL = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`;
+
+  try {
+    const creditsRes = await fetch(creditsURL);
+
+    if (!creditsRes.ok)
+      throw new Error('Algo salió mal al obtener los créditos de la película');
+
+    const data = (await creditsRes.json()) as Credits;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export type Movies = {
   page: number;
   results: Movie[];
@@ -105,72 +173,129 @@ export type Movie = {
   youtubeTrailerId: string | null;
 };
 
-export interface MovieDetail {
-  adult: boolean;
-  backdrop_path: string;
+export type MovieDetail = {
+  adult:                 boolean;
+  backdrop_path:         string;
   belongs_to_collection: BelongsToCollection;
-  budget: number;
-  genres?: Genres[] | null;
-  homepage: string;
-  id: number;
-  imdb_id: string;
-  origin_country?: string[] | null;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_companies?: ProductionCompanies[] | null;
-  production_countries?: ProductionCountries[] | null;
-  release_date: string;
-  revenue: number;
-  runtime: number;
-  spoken_languages?: SpokenLanguages[] | null;
-  status: string;
-  tagline: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  videos: Videos;
+  budget:                number;
+  genres:                Genre[];
+  homepage:              string;
+  id:                    number;
+  imdb_id:               string;
+  origin_country:        string[];
+  original_language:     string;
+  original_title:        string;
+  overview:              string;
+  popularity:            number;
+  poster_path:           string;
+  production_companies:  ProductionCompany[];
+  production_countries:  ProductionCountry[];
+  release_date:          Date;
+  revenue:               number;
+  runtime:               number;
+  spoken_languages:      SpokenLanguage[];
+  status:                string;
+  tagline:               string;
+  title:                 string;
+  video:                 boolean;
+  vote_average:          number;
+  vote_count:            number;
+  videos:                Videos;
 }
-export interface BelongsToCollection {
-  id: number;
-  name: string;
-  poster_path: string;
+
+export type BelongsToCollection = {
+  id:            number;
+  name:          string;
+  poster_path:   string;
   backdrop_path: string;
 }
-export interface Genres {
-  id: number;
+
+export type Genre = {
+  id:   number;
   name: string;
 }
-export interface ProductionCompanies {
-  id: number;
-  logo_path?: string | null;
-  name: string;
+
+export type ProductionCompany = {
+  id:             number;
+  logo_path:      string;
+  name:           string;
   origin_country: string;
 }
-export interface ProductionCountries {
+
+export type ProductionCountry = {
   iso_3166_1: string;
-  name: string;
+  name:       string;
 }
-export interface SpokenLanguages {
+
+export type SpokenLanguage = {
   english_name: string;
-  iso_639_1: string;
-  name: string;
+  iso_639_1:    string;
+  name:         string;
 }
-export interface Videos {
-  results: VideosResults[];
+
+export type Videos = {
+  results: VideoResult[];
 }
-export interface VideosResults {
-  iso_639_1: string;
-  iso_3166_1: string;
-  name: string;
-  key: string;
-  site: string;
-  size: number;
-  type: string;
-  official: boolean;
-  published_at: string;
-  id: string;
+
+export type VideoResult = {
+  iso_639_1:    string;
+  iso_3166_1:   string;
+  name:         string;
+  key:          string;
+  site:         VideoSite;
+  size:         number;
+  type:         VideoType;
+  official:     boolean;
+  published_at: Date;
+  id:           string;
+}
+
+export enum VideoSite {
+  YouTube = "YouTube",
+}
+
+export enum VideoType {
+  BehindTheScenes = "Behind the Scenes",
+  Clip = "Clip",
+  Featurette = "Featurette",
+  Teaser = "Teaser",
+  Trailer = "Trailer",
+}
+
+export type Credits = {
+  id:   number;
+  cast: Cast[];
+  crew: Cast[];
+}
+
+export type Cast = {
+  adult:                boolean;
+  gender:               number;
+  id:                   number;
+  known_for_department: Department;
+  name:                 string;
+  original_name:        string;
+  popularity:           number;
+  profile_path:         null | string;
+  cast_id?:             number;
+  character?:           string;
+  credit_id:            string;
+  order?:               number;
+  department?:          Department;
+  job?:                 string;
+}
+
+export enum Department {
+  Acting = "Acting",
+  Art = "Art",
+  Camera = "Camera",
+  CostumeMakeUp = "Costume & Make-Up",
+  Crew = "Crew",
+  Directing = "Directing",
+  Editing = "Editing",
+  Lighting = "Lighting",
+  Production = "Production",
+  Sound = "Sound",
+  VisualEffects = "Visual Effects",
+  Writing = "Writing",
 }
