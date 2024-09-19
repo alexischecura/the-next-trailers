@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { MovieDetail, Credits, Movies } from '../_lib/data-service';
 import { Bebas_Neue } from 'next/font/google';
 import MoviesGrid from './MoviesGrid';
+import Link from 'next/link';
 
 const bebas_neue = Bebas_Neue({
   subsets: ['latin'],
@@ -30,15 +31,20 @@ const MovieDetails = ({
       </h2>
       <ul className="flex gap-16 mb-6">
         {credits.cast.slice(0, 4).map((actor) => (
-          <li key={actor.id} className="text-center hover:scale-105 transition-all duration-300 cursor-pointer">
-            <Image
-              src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-              alt={actor.name}
-              className="mx-auto mb-2 rounded-full w-24 h-24 object-cover"
-              width={96}
-              height={96}
-            />
-            <p className="font-semibold">{actor.name}</p>
+          <li
+            key={actor.id}
+            className="text-center hover:scale-105 transition-all duration-300 cursor-pointer"
+          >
+            <Link href={`/actor/${actor.id}`}>
+              <Image
+                src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                alt={actor.name}
+                className="mx-auto mb-2 rounded-full w-24 h-24 object-cover"
+                width={96}
+                height={96}
+              />
+              <p className="font-semibold">{actor.name}</p>
+            </Link>
           </li>
         ))}
       </ul>

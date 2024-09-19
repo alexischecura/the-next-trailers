@@ -21,7 +21,7 @@ export default function MoviesGrid({ movies, quantity }: { movies: Movies, quant
           height={300}
         />
         <div className="p-4">
-          <h3 className="line-clamp-2 font-semibold text-sm">
+          <h3 className="line-clamp-2 font-semibold text-gray-100 text-sm">
             {movie.title.slice(0, 20)}
             {movie.title.length > 20 ? '...' : ''}
           </h3>

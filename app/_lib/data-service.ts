@@ -148,6 +148,40 @@ export async function getCredits(movieId: string) {
   }
 }
 
+export async function getMoviesActor(actorId: string) {
+  const url = `https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=${API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok)
+      throw new Error('Something went wrong with fetching the actor\'s movies');
+
+    const data = await res.json();
+    
+    return { results: data.cast } as Movies;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getActorInfo(actorId: string) {
+  const url = `https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok)
+      throw new Error('Something went wrong with fetching the actor info');
+
+    const data = await res.json();
+    
+    return data as Cast;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export type Movies = {
   page: number;
   results: Movie[];
