@@ -57,9 +57,9 @@ function Movie({ movie }: { movie: MovieDetail }) {
           </Box>
         </button>
         <Box title="ORIGIN COUNTRY">{movie.origin_country.join(' / ')}</Box>
-        <Box title="RELEASE">{format(movie.release_date, 'MMMM d, yyyy')}</Box>
-        <Box title="LENGTH">{movie.runtime} min</Box>
-        <Box title="USER RATING">{movie.vote_average.toFixed(1)} / 10</Box>
+        <Box title="RELEASE">{movie.release_date ? format(movie.release_date, 'MMMM d, yyyy') : "Unconfirmed"}</Box>
+        <Box title="LENGTH">{movie.runtime ? `${movie.runtime} min` : "Uncofirmed"}</Box>
+        <Box title="USER RATING">{movie.vote_average ? `${movie.vote_average.toFixed(1)} / 10` : "No user rating"}</Box>
       </div>
     </section>
   );
