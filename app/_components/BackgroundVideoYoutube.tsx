@@ -12,8 +12,8 @@ function BackgroundVideoYoutube() {
   return (
     <div
       onClick={closeOnTopVideo}
-      className={`top-0 right-0 left-0 bottom-0 fixed flex justify-center items-center transition-all ${
-        onTop ? 'z-20 bg-black bg-opacity-50' : 'scale-150 -z-20 -top-32'
+      className={`right-0 left-0 bottom-0 fixed flex justify-center items-center transition-all ${
+        onTop ? 'z-20 bg-black bg-opacity-50 top-0' : 'scale-150 -z-20 -top-36 max-xl:-top-80 max-lg:scale-[2] max-md:scale-[3] max-sm:scale-[3.8]'
       }`}
     >
       <div
