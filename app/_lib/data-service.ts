@@ -38,7 +38,7 @@ export async function getPopularWeekMovies() {
   const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { next: { revalidate: 86400 } });
 
     if (!res.ok)
       throw new Error('Something went wrong with fetching the movies');
@@ -62,7 +62,7 @@ export async function getMainMoviesAndTrailers(moviesQuantity: number = 4) {
   const urlMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=1`;
 
   try {
-    const res = await fetch(urlMovies);
+    const res = await fetch(urlMovies, { next: { revalidate: 86400 } });
 
     if (!res.ok)
       throw new Error('Something went wrong with fetching the movies');
@@ -101,7 +101,7 @@ export async function getMovies() {
   const urlMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&include_adult=true&page=1&sort_by=popularity.desc`;
 
   try {
-    const res = await fetch(urlMovies);
+    const res = await fetch(urlMovies, { next: { revalidate: 86400 } });
 
     if (!res.ok)
       throw new Error('Something went wrong with fetching the movies');
